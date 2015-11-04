@@ -15,6 +15,7 @@
 if exists("g:wsvn_loaded") && g:wsvn_loaded
    finish
 endif
+let g:wsvn_loaded = 1
 
 " 更新项目目录
 func! UpdateObjectDir()
