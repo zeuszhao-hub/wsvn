@@ -12,11 +12,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 只载入一次
-if exists("g:wsvn_loaded")
+if exists("g:loaded_wsvn")
    finish
 endif
 
-let g:wsvn_loaded = 1
+let g:loaded_wsvn = 1
 
 " 更新项目目录
 func! UpdateObjectDir()
