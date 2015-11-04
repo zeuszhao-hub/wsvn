@@ -11,11 +11,10 @@
 "	url:
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" 传说是只载入一次
-if &cp || exists("g:loaded_filter")
-	finish
+" 只载入一次
+if exists("g:wsvn_loaded") && g:wsvn_loaded
+   finish
 endif
-let g:loaded_filter = "wsvn"
 
 " 更新项目目录
 func! UpdateObjectDir()
