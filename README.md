@@ -1,6 +1,6 @@
 > wsvn
 
-这个插件提供类似nodepad++ subversion功能可以实现快速提交、更新等操作
+这个插件提供类似nodepad++ subversion功能,可以实现快速提交、更新等操作
 
 > Install
 
