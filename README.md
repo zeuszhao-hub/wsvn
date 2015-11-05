@@ -47,4 +47,4 @@ wsvn目前只支持window下使用
 
 <hr>
 
-kisshc@kisshc.com
+kisshc@kisshc.com & https://github.com/kisshc/wsvn
