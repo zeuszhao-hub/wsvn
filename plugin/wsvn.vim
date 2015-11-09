@@ -3,77 +3,77 @@
 "	version:0.0.1
 "	date:2015/11/4 13:14
 "	email:kisshc@kisshc.com
-"	description:¼òµ¥²Ù×÷svn¿Í»§¶ËguiÊµÏÖ¸üÐÂÌá½»µÈ²Ù×÷
+"	description:ç®€å•æ“ä½œsvnå®¢æˆ·ç«¯guiå®žçŽ°æ›´æ–°æäº¤ç­‰æ“ä½œ
 "	doc:
-"		vimrcÔö¼Ó:let g:wsvn_gui_path = "{svn¿Í»§¶Ë°²×°Â·¾¶}/bin/TortoiseProc.exe"
+"		vimrcå¢žåŠ :let g:wsvn_gui_path = "{svnå®¢æˆ·ç«¯å®‰è£…è·¯å¾„}/bin/TortoiseProc.exe"
 "			 	  let g:wsvn_msg_type = number [0,1,2,3]
 "	end
 "	url:
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Ö»ÔØÈëÒ»´Î
+" åªè½½å…¥ä¸€æ¬¡
 if exists("g:loaded_wsvn")
    finish
 endif
 
 let g:loaded_wsvn = 1
 
-" ¸üÐÂÏîÄ¿Ä¿Â¼
+" æ›´æ–°é¡¹ç›®ç›®å½•
 func! UpdateObjectDir()
 	let w:command = Wsvn()
 	let w:command .= " /command:update /path:" . '"' . FindObejectRoot() . '"'
 	call ExeCmd(w:command)	
 endfunc
 
-" Ìá½»ÏîÄ¿Ä¿Â¼
+" æäº¤é¡¹ç›®ç›®å½•
 func! CommitObjectDir()
 	let w:command = Wsvn()
 	let w:command .= " /command:commit /path:" . '"' . FindObejectRoot() . '"'
 	call ExeCmd(w:command)	
 endfunc
 
-" ¸üÐÂµ±Ç°ÎÄ¼þÄ¿Â¼
+" æ›´æ–°å½“å‰æ–‡ä»¶ç›®å½•
 func! UpdateCurDirAll()
 	let w:command = Wsvn()
 	let w:command .= " /command:update /path:" . '"' . getcwd() . '"'
 	call ExeCmd(w:command)
 endfunc
 
-" Ìá½»µ±Ç°ÎÄ¼þÄ¿Â¼
+" æäº¤å½“å‰æ–‡ä»¶ç›®å½•
 func! CommitCurDirAll()
 	let w:command = Wsvn()
 	let w:command .= " /command:commit /path:" . '"' . getcwd() . '"'
 	call ExeCmd(w:command)
 endfunc
 
-" ¸üÐÂµ±Ç°ÎÄ¼þ
+" æ›´æ–°å½“å‰æ–‡ä»¶
 func! UpdateCurOneFile()
 	let w:command = Wsvn()
 	let w:command .= " /command:update /path:" . '"' . getcwd() . "\\" . CurFile() . '"'
 	call ExeCmd(w:command)
 endfunc
 
-" Ìá½»µ±Ç°ÎÄ¼þ
+" æäº¤å½“å‰æ–‡ä»¶
 func! CommitCurOneFile()
 	let w:command = Wsvn()
 	let w:command .= " /command:commit /path:" . '"' . getcwd() . "\\" . CurFile() . '"'
 	call ExeCmd(w:command)
 endfunc
 
-" µ±Ç°ÎÄ¼þÃû
+" å½“å‰æ–‡ä»¶å
 func! CurFile()
     return expand("%:t")
 endfunc
 
 func! Wsvn()
 	if !has("win32") && !has("win64") && !has("win95") && !has("win16")
-		throw "[Wsvn ERROR]²å¼þÔÝÊ±Ö»Ö§³Öwindow"
+		throw "[WSVN ERROR]:This plugin is only for windows"
 	endif
 	if !exists("g:wsvn_msg_type")
 		let g:wsvn_msg_type = 2
 	endif
 	if !exists("g:wsvn_gui_path") && !executable("C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe")
-		throw "[Wsvn ERROR]:ÇëÉèÖÃlet g:wsvn_gui_pathÎªTortoiseProc.exeËùÔÚÂ·¾¶"
+		throw "[WSVN ERROR]:set let g:wsvn_gui_path = [path]/TortoiseProc.exe on your vimrc file"
 	else
 		let g:wsvn_gui_path = "C:/\"Program Files\"/TortoiseSVN/bin/TortoiseProc.exe"
 	endif
@@ -92,20 +92,23 @@ func! FindObejectRoot()
 	let w:dir = "./"
 	let w:root = 0
 	let w:i = 0
-	while isdirectory(getcwd())
+	let w:path = getcwd()
+	let w:curDir = './'
+	while isdirectory(w:curDir)
+		let w:curDir = getcwd()
 		if w:i > 100
 			break
 		endif
 		if isdirectory(w:dir . ".svn")
-			let w:root = getcwd()
+			let w:root = w:curDir
 			break
 		endif
 		let w:i += 1
 		execute "lcd ../"
 	endwhile
+	execute "lcd " . w:path
 	if isdirectory(w:root)
 		return w:root
-	else
-		throw "[Wsvn ERROR]:Î´ÄÜÕÒµ½ÏîÄ¿Ä¿Â¼"
 	endif
+	throw "[WSVN ERROR]:Not found svn"
 endfunc
