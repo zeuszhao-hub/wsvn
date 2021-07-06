@@ -50,6 +50,3 @@ wsvn目前只支持window下使用
 
 1. 修复提交项目目录后，再次提交单个文件文件目录不正确的问题
 
-<hr>
-
-kisshc@kisshc.com & https://github.com/kisshc/wsvn
